@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastAPI CRUD</title>
+    <link rel="stylesheet" href="/static/style.css">
+
+</head>
+<body>
+    <h1>Items and Clock-In Management</h1>
+    <div id="items-section">
+        <h2>Manage Items</h2>
+        <form id="item-form">
+            <input type="text" id="name" placeholder="NName" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="text" id="item-name" placeholder="Item Name" required>
+            <input type="number" id="quantity" placeholder="Quantity" required>
+            <input type="date" id="expiry-date" required>
+            <button type="submit">Add Item</button>
+        </form>
+        <button onclick="getItems()">Get All Items</button>
+        <div id="items-result"></div>
+    </div>
+
+    <div id="clock-in-section">
+        <h2>Manage Clock-In Records</h2>
+        <form id="clockin-form">
+            <input type="email" id="clockin-email" placeholder="Email" required>
+            <input type="text" id="location" placeholder="Location" required>
+            <button type="submit">Clock In</button>
+        </form>
+        <button onclick="getClockIns()">Get All Clock-Ins</button>
+        <div id="clockins-result"></div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
