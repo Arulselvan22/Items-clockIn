@@ -13,27 +13,18 @@ from pymongo import ASCENDING
 import ssl
 from fastapi import Query
 
-# MongoDB setup (Replace with your MongoDB URI)
-#MONGO_URI = "mongodb+srv://arulselvan8778:Arul@cluster0.r66ax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0&tls=true&tlsAllowInvalidCertificates=true"
-
 load_dotenv()
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-# Get MongoDB connection string from environment variable
 mongodb_uri = os.getenv("MONGO_URI")
 client = MongoClient(mongodb_uri)
 db = client['FastAPIApp']
 items_collection = db['Items']
 clockin_collection = db['ClockInRecords']
 
-# Define allowed origins
-"""origins = [
-    "http://localhost:5500",  # Frontend URL
-    "http://127.0.0.1:5500",
-    # Add other origins if necessary
-]"""
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -43,7 +34,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ... (rest of the FastAPI code)
+
 
 
 class Item(BaseModel):
@@ -130,19 +121,19 @@ async def filter_items(
     query = {}
     
     if email:
-        query["email"] = email  # Exact match
+        query["email"] = email  
     
     
     if expiry_date:
-        # Validate and convert expiry_date to a proper format (optional)
+        
         try:
-            datetime.strptime(expiry_date, '%Y-%m-%d')  # Check date format
+            datetime.strptime(expiry_date, '%Y-%m-%d')  
             query["expiry_date"] = {"$gte": expiry_date}
         except ValueError:
             raise HTTPException(status_code=400, detail="Invalid expiry_date format. Use YYYY-MM-DD.")
     
     if insert_date:
-        # Validate and convert insert_date to a proper format (optional)
+       
         try:
             datetime.strptime(insert_date, '%Y-%m-%d')  # Check date format
             query["insert_date"] = {"$gte": insert_date}
@@ -152,7 +143,7 @@ async def filter_items(
     if quantity is not None:
         query["quantity"] = {"$gte": quantity}
     
-    # Execute the query on the MongoDB collection
+  
     results = await items_collection.find(query).to_list(length=100)
     
     if not results:
